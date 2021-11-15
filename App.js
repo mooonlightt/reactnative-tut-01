@@ -134,108 +134,22 @@ import {
   RefreshControl,
   FlatList,
   SectionList,
+  TextInput,
 } from 'react-native';
 
 const App = () => {
-  const [Items, setItems] = useState([
-    {key: 1, item: 'Item 1'},
-    {key: 2, item: 'Item 2'},
-    {key: 3, item: 'Item 3'},
-    {key: 4, item: 'Item 4'},
-    {key: 5, item: 'Item 5'},
-    {key: 6, item: 'Item 6'},
-    {key: 8, item: 'Item 8'},
-    {key: 9, item: 'Item 9'},
-    {key: 10, item: 'Item 10'},
-    {key: 11, item: 'Item 11'},
-    {key: 13, item: 'Item 13'},
-    {key: 14, item: 'Item 14'},
-    {key: 15, item: 'Item 15'},
-    {key: 16, item: 'Item 16'},
-  ]);
-
-  const [flatListElements, setFlatListElements] = useState([
-    {name: 'name 1'},
-    {name: 'name 2'},
-    {name: 'name 3'},
-    {name: 'name 4'},
-    {name: 'name 5'},
-    {name: 'name 6'},
-    {name: 'name 8'},
-    {name: 'name 9'},
-    {name: 'name 10'},
-    {name: 'name 11'},
-    {name: 'name 13'},
-    {name: 'name 14'},
-    {name: 'name 15'},
-    {name: 'name 16'},
-  ]);
-
-  const DATA = [
-    {
-      title: 'Title 1',
-      data: ['Title 1 - 1', 'Title 1 - 2', 'Title 1 - 3'],
-    },
-    {
-      title: 'Title 2',
-      data: ['Title 2 - 1', 'Title 2 - 2', 'Title 2 - 3'],
-    },
-    {
-      title: 'Title 3',
-      data: ['Title 3 - 1', 'Title 3 - 2'],
-    },
-    {
-      title: 'Title 4',
-      data: ['Title 4 - 1'],
-    },
-  ];
-  const [refreshing, setRefreshing] = useState(false);
-  const onRefresh = () => {
-    setRefreshing(true);
-    setItems([...Items, {key: 17, item: 'Item 17'}]);
-    setRefreshing(false);
-  };
+  const [name, setName] = useState('');
   return (
-    // <View style={styles.body}>
-    //   <ScrollView
-    //     refreshControl={
-    //       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-    //     }>
-    //     {Items.map(x => {
-    //       return (
-    //         <View style={styles.item} key={x.key}>
-    //           <Text style={styles.text}> {x.item}</Text>
-    //         </View>
-    //       );
-    //     })}
-    //   </ScrollView>
-
-    //   {/* <Button title="Ubdate Name" onPress={handleUpdateName}></Button> */}
-    // </View>
-
-    // <FlatList
-    //   keyExtractor={(item, index) => index.toString()}
-    //   data={flatListElements}
-    //   refreshControl={
-    //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-    //   }
-    //   renderItem={({item}) => (
-    //     <View style={styles.item}>
-    //       <Text style={styles.text}> {item.name}</Text>
-    //     </View>
-    //   )}
-    // />
-
-    <SectionList
-      keyExtractor={(item, index) => index.toString}
-      sections={DATA}
-      renderItem={({item}) => <Text style={styles.text}> {item}</Text>}
-      renderSectionHeader={({section}) => (
-        <View style={styles.item}>
-          <Text style={styles.text}> {section.title}</Text>
-        </View>
-      )}
-    />
+    <View style={styles.body}>
+      <Text style={styles.text}> Write your name</Text>
+      <TextInput
+        style={styles.input}
+        multiline
+        placeholder=" input a name"
+        onChangeText={v => setName(v)}
+      />
+      <Text>Your name is: {name} </Text>
+    </View>
   );
 };
 
@@ -244,8 +158,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#fff',
-    alignItems: 'stretch',
-    justifyContent: 'center',
+    alignItems: 'center',
   },
   text: {
     color: '#000',
@@ -258,6 +171,14 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  input: {
+    width: 200,
+    borderWidth: 1,
+    borderColor: '#555',
+    borderRadius: 5,
+    textAlign: 'center',
+    fontSize: 20,
   },
 });
 
