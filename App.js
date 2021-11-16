@@ -139,6 +139,7 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
   Pressable,
+  Alert,
 } from 'react-native';
 
 const App = () => {
@@ -146,8 +147,18 @@ const App = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const submitHandler = () => {
-    setSubmitted(!submitted);
+    if (name.length > 3) {
+      setSubmitted(!submitted);
+    } else {
+      Alert.alert(
+        'Warning',
+        'The name must be more than 3 charecters!',
+        [{text: 'Ok'}],
+        {cancelable: true},
+      );
+    }
   };
+
   return (
     <View style={styles.body}>
       <Text style={styles.text}> Write your name</Text>
