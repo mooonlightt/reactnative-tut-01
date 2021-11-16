@@ -135,10 +135,19 @@ import {
   FlatList,
   SectionList,
   TextInput,
+  TouchableOpacity,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  Pressable,
 } from 'react-native';
 
 const App = () => {
   const [name, setName] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  const submitHandler = () => {
+    setSubmitted(!submitted);
+  };
   return (
     <View style={styles.body}>
       <Text style={styles.text}> Write your name</Text>
@@ -148,7 +157,33 @@ const App = () => {
         placeholder=" input a name"
         onChangeText={v => setName(v)}
       />
-      <Text>Your name is: {name} </Text>
+      {/* <Button title={submitted ? 'Clear' : 'Submit'} onPress={submitHandler} /> */}
+
+      {/* <TouchableOpacity style={styles.button} onPress={submitHandler}>
+        <Text style={styles.text}>{submitted ? 'Clear' : 'Submit'}</Text>
+      </TouchableOpacity> */}
+
+      {/* <TouchableHighlight
+        style={styles.button}
+        onPress={submitHandler}
+        underlayColor="red">
+        <Text style={styles.text}>{submitted ? 'Clear' : 'Submit'} </Text>
+      </TouchableHighlight> */}
+
+      {/* <TouchableWithoutFeedback style={styles.button} onPress={submitHandler}>
+        <Text style={styles.text}>{submitted ? 'Clear' : 'Submit'} </Text>
+      </TouchableWithoutFeedback> */}
+      <Pressable
+        onPress={submitHandler}
+        style={({pressed}) => [
+          {
+            backgroundColor: pressed ? '#555' : '#55ff55',
+          },
+          styles.button,
+        ]}>
+        <Text style={styles.text}>{submitted ? 'Clear' : 'Submit'}</Text>
+      </Pressable>
+      {submitted && <Text>You have been submitted: {name} </Text>}
     </View>
   );
 };
@@ -179,6 +214,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     textAlign: 'center',
     fontSize: 20,
+    margin: 10,
+  },
+  button: {
+    borderRadius: 8,
   },
 });
 
