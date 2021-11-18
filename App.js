@@ -140,27 +140,48 @@ import {
   TouchableWithoutFeedback,
   Pressable,
   Alert,
+  Modal,
 } from 'react-native';
 
 const App = () => {
   const [name, setName] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
 
   const submitHandler = () => {
     if (name.length > 3) {
       setSubmitted(!submitted);
     } else {
-      Alert.alert(
-        'Warning',
-        'The name must be more than 3 charecters!',
-        [{text: 'Ok'}],
-        {cancelable: true},
-      );
+      setShowWarning(true);
     }
   };
 
   return (
     <View style={styles.body}>
+      <Modal
+        visible={showWarning}
+        transparent
+        onRequestClose={() => setShowWarning(false)}
+        animationType="fade">
+        <View style={styles.centered_view}>
+          <View style={styles.warning_modal}>
+            <View style={styles.warning_title}>
+              <Text style={styles.text}>WARNING!</Text>
+            </View>
+
+            <View style={styles.warning_body}>
+              <Text style={styles.text}>
+                Yuo must enter more than 3 letters!
+              </Text>
+            </View>
+            <View style={styles.warning_button}>
+              <Pressable onPress={() => setShowWarning(false)}>
+                <Text style={styles.text}>OK</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <Text style={styles.text}> Write your name</Text>
       <TextInput
         style={styles.input}
@@ -211,6 +232,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontStyle: 'italic',
     margin: 10,
+    textAlign: 'center',
   },
   item: {
     backgroundColor: '#a5cf16',
@@ -229,6 +251,43 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 8,
+  },
+  centered_view: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#00000099',
+  },
+  warning_modal: {
+    width: 302,
+    height: 300,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderRightColor: '#000',
+    borderRadius: 20,
+  },
+  warning_title: {
+    width: 300,
+    height: 50,
+    backgroundColor: '#ff0',
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  warning_body: {
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  warning_button: {
+    width: 300,
+    height: 50,
+    backgroundColor: '#fa2',
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
