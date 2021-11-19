@@ -141,6 +141,8 @@ import {
   Pressable,
   Alert,
   Modal,
+  Image,
+  ImageBackground,
 } from 'react-native';
 
 const App = () => {
@@ -157,7 +159,11 @@ const App = () => {
   };
 
   return (
-    <View style={styles.body}>
+    <ImageBackground
+      style={styles.body}
+      source={{
+        uri: 'https://i.pinimg.com/474x/15/f9/00/15f9007cc00d7f54dec4ba5ab8dd5816.jpg',
+      }}>
       <Modal
         visible={showWarning}
         transparent
@@ -215,8 +221,24 @@ const App = () => {
         ]}>
         <Text style={styles.text}>{submitted ? 'Clear' : 'Submit'}</Text>
       </Pressable>
-      {submitted && <Text>You have been submitted: {name} </Text>}
-    </View>
+      {submitted ? (
+        <View style={styles.body}>
+          <Text>You have been submitted: {name} </Text>
+          <Image
+            source={require('./assets/done.png')}
+            style={styles.image}
+            resizeMode="stretch"
+            blurRadius={1}
+          />
+        </View>
+      ) : (
+        <Image
+          source={require('./assets/error.png')}
+          style={styles.image}
+          blurRadius={1}
+        />
+      )}
+    </ImageBackground>
   );
 };
 
@@ -224,7 +246,7 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#fff',
+
     alignItems: 'center',
   },
   text: {
@@ -288,6 +310,11 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 20,
   },
 });
 
