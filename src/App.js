@@ -1,104 +1,57 @@
-// import React from 'react';
-// import {StyleSheet, View, Text} from 'react-native';
-
-// import {NavigationContainer} from '@react-navigation/native';
-// import {createStackNavigator} from '@react-navigation/stack';
-
-// const Stack = createStackNavigator();
-// function ScreenA() {
-//   return (
-//     <View>
-//       <Text> Screen A</Text>
-//     </View>
-//   );
-// }
-
-// function App() {
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator>
-//         <Stack.Screen name="Screen_A" component={ScreenA} />
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   );
-// }
-
-// export default App;
-
 import React from 'react';
-import {StyleSheet, View, Text, Pressable} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
-const Stack = createStackNavigator();
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import ScreenA from './components/Screens/ScreenA';
+import ScreenB from './components/Screens/ScreenB';
 
-function ScreenA({navigation}) {
-  const onPressHandler = () => {
-    navigation.navigate('Screen_B');
-  };
-
-  return (
-    <View style={styles.body}>
-      <Text style={styles.text}>Screen A</Text>
-      <Pressable
-        onPress={onPressHandler}
-        style={({pressed}) => ({backgroundColor: pressed ? '#ddd' : '#0f0'})}>
-        <Text style={styles.text}>Go to Screen B</Text>
-      </Pressable>
-    </View>
-  );
-}
-
-function ScreenB({navigation}) {
-  const onPressHandler = () => {
-    // navigation.navigate('Screen_A');
-    navigation.goBack();
-  };
-
-  return (
-    <View style={styles.body}>
-      <Text style={styles.text}>Screen B</Text>
-      <Pressable
-        onPress={onPressHandler}
-        style={({pressed}) => ({backgroundColor: pressed ? '#ddd' : '#0f0'})}>
-        <Text style={styles.text}>Go Back to Screen A</Text>
-      </Pressable>
-    </View>
-  );
-}
+//const tab = createBottomTabNavigator();
+const tab = createMaterialBottomTabNavigator();
+//const tab = createMaterialTopTabNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-      // screenOptions={{
-      //   header: () => null
-      // }}
-      >
-        <Stack.Screen
+      <tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, size, color}) => {
+            let iconName;
+            if (route.name === 'Screen_A') {
+              iconName = 'btc';
+              size = focused ? 25 : 20;
+              color = focused ? '#da1' : '#555';
+            } else if (route.name === 'Screen_B') {
+              iconName = 'autoprefixer';
+              size = focused ? 25 : 20;
+              color = focused ? '#da1' : '#555';
+            }
+            return <FontAwesome5 name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTinColor: '#da1',
+          inactiveTinColor: '#555',
+          activeBackgroundColor: '#fff',
+          inactiveBackgroundColor: '#999',
+          showLabel: true,
+          labelStyle: {fontSize: 15},
+          showIcon: true,
+        }}
+        activeColor="#f0edf6"
+        inactiveColor="#3e2465"
+        barStyle={{backgroundColor: '#feadaa'}}>
+        <tab.Screen
           name="Screen_A"
           component={ScreenA}
-          // options={{
-          //   header: () => null
-          // }}
+          options={{tabBarBadge: 3}}
         />
-        <Stack.Screen name="Screen_B" component={ScreenB} />
-      </Stack.Navigator>
+        <tab.Screen name="Screen_B" component={ScreenB} />
+      </tab.Navigator>
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    margin: 10,
-  },
-});
 
 export default App;
